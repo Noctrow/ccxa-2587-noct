@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirección</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=TU_ID_ANALYTICS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'TU_ID_ANALYTICS');
+  </script>
+</head>
+<body>
+  <script>
+    const redirects = {
+      "FB": "https://facebook.com/chochoxapp",
+      "IG": "https://instagram.com/chochox.app",
+      "TW": "https://twitter.com/chochoxapp"
+    };
+
+    const path = window.location.pathname.slice(1); // Obtén la ruta después de "/"
+    const redirectURL = redirects[path];
+
+    if (redirectURL) {
+      // Reporta la visita a Google Analytics
+      gtag('event', 'short_link_click', {
+        'event_category': 'Redirecciones',
+        'event_label': path,
+        'value': 1
+      });
+
+      // Redirige al usuario
+      setTimeout(() => {
+        window.location.href = redirectURL;
+      }, 100); // Pequeño retraso para asegurar el registro
+    } else {
+      document.body.innerHTML = `
+        <h1>404 - Short link no encontrado</h1>
+        <p>El enlace <strong>${path}</strong> no existe.</p>
+        <a href="/">Volver al inicio</a>
+      `;
+    }
+  </script>
+</body>
+</html>
